@@ -43,6 +43,34 @@ while True:
     except Exception as e:
         print(f"🤖: {e}")
 ```
+### With Memory Support:
+
+```python
+from freeGPT import Client
+
+class ConversationMemory:
+    def __init__(self):
+        self.history = []
+
+    def add_to_history(self, user_input, bot_response):
+        self.history.append(f"User: {user_input}\nBot: {bot_response}")
+
+    def get_history(self):
+        return "\n".join(self.history)
+
+memory = ConversationMemory()
+
+while True:
+    prompt = input("👦: ")
+    history = memory.get_history()
+    try:
+        full_prompt = f"{history}\nUser: {prompt}\nBot:"
+        resp = Client.create_completion("gpt3_5", full_prompt)
+        print(f"🤖: {resp}")
+        memory.add_to_history(prompt, resp)
+    except Exception as e:
+        print(f"🤖: {e}")
+```
 
 ### Image Generation:
 
